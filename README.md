@@ -9,6 +9,27 @@ Agno `Model` adapter that talks to the **Cursor CLI** over a persistent **ACP** 
 Cursor unlocks multiple exciting features: multiple model providers, cost router, agentic memory, code indexing, cloud agent provisioning and a powerful harness.
 Now available to power your Agno agents for the best aSDLC pipeline experience.
 
+## Prerequisites
+
+- Python 3.10+
+- [Cursor CLI](https://cursor.com/cli) installed (`cursor-agent` on your PATH)
+
+## Cursor authorization
+
+Running agents that call Cursor (local ACP or the demo team) requires an authenticated Cursor CLI session on **that machine**. This repo does not store or ship credentials.
+
+**Option A — one-time CLI login (typical for local dev):**
+
+```bash
+cursor-agent login
+```
+
+**Option B — API key in your environment** (CI, servers, or automation on your own infra):
+
+Set `CURSOR_API_KEY` in the environment (or your local `.env`, never committed). See [Cursor CLI](https://cursor.com/cli) docs for how to obtain a key.
+
+The library’s `check_cursor_login()` verifies `cursor-agent status` shows a logged-in session when you start the demo stack; use whichever auth method Cursor supports for your setup.
+
 ## Quickstart
 
 Install from PyPI:
@@ -38,7 +59,7 @@ Harness environment variables use the `AGNO_CURSOR_` prefix (for example `AGNO_C
 
 ## Demo team
 
-A full **Agno AgentOS + A2A** team lives under [`examples/demo_team`](examples/demo_team/README.md). It uses `CURSOR_TEAM_`* settings and role-based models (leader defaults to `auto`).
+A full **Agno AgentOS + A2A** team lives under [`examples/demo_team`](examples/demo_team/README.md). It uses `CURSOR_TEAM_*` settings and role-based models (leader defaults to `auto`).
 
 ```bash
 cd examples/demo_team
@@ -49,9 +70,12 @@ python team_os.py
 
 Connect the Agno UI to **http://localhost:7777** (not `0.0.0.0`).
 
-## Development
+## Roadmap
 
-- Unit tests mock ACP I/O; CI never calls `cursor-agent`.
-- Integration tests: `pytest -m integration` locally with login and optional `team_os` running.
+- [x] Cursor ACP integration
+- [ ] Remote Cursor integration
+- [ ] Cursor as a DevContainer ([devcontainers/images](https://github.com/devcontainers/images))
+
+## Development
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
