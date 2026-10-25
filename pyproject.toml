@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agno-cursor-agent"
+version = "0.1.0"
+description = "Agno Model adapter for persistent Cursor CLI ACP sessions"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "vaiden" }]
+keywords = ["agno", "cursor", "acp", "agent", "a2a"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "agno[a2a]>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "pyyaml>=6.0",
+    "httpx>=0.27.0",
+]
+
+[project.optional-dependencies]
+standard = ["uvicorn[standard]>=0.27.0"]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.0.0",
+    "httpx>=0.27.0",
+    "fastapi>=0.100.0",
+    "sqlalchemy>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/vaiden/agno-cursor-agent"
+Repository = "https://github.com/vaiden/agno-cursor-agent"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["agno_cursor"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/agno_cursor" = "agno_cursor"
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/README.md", "/LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "examples/demo_team/tests"]
+pythonpath = ["src", "examples/demo_team"]
+addopts = ["-m", "not integration", "--strict-markers"]
+asyncio_mode = "auto"
+markers = [
+    "integration: tests requiring cursor-agent login and live ACP/AgentOS (opt-in with -m integration)",
+]
+
+[tool.coverage.run]
+source = ["agno_cursor"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 85
+show_missing = true
