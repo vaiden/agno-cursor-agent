@@ -2,6 +2,7 @@
 
 ![CI](https://github.com/vaiden/agno-cursor-agent/actions/workflows/ci.yml/badge.svg)
 ![codecov](https://codecov.io/gh/vaiden/agno-cursor-agent/graph/badge.svg)
+![PyPI Version](https://img.shields.io/pypi/v/agno-cursor-agent)
 
 Agno `Model` adapter that talks to the **Cursor CLI** over a persistent **ACP** (JSON-RPC) session.  
 
