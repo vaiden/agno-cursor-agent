@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "agno-cursor"
+name = "agno-cursor-agent"
 version = "0.1.0"
 description = "Agno Model adapter for persistent Cursor CLI ACP sessions"
 readme = "README.md"

@@ -1,6 +1,6 @@
 # Demo team (Agno AgentOS + Cursor ACP)
 
-Multi-agent team with a coordinating leader and specialist members (researcher, coder, writer). Each local member uses a persistent `cursor-agent acp` session via the **`agno-cursor`** library.
+Multi-agent team with a coordinating leader and specialist members (researcher, coder, writer). Each local member uses a persistent `cursor-agent acp` session via the **`agno-cursor-agent`** package (`import agno_cursor`).
 
 ## Prerequisites
 

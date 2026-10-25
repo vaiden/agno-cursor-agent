@@ -1,24 +1,25 @@
-# agno-cursor
+# agno-cursor-agent
 
-[![CI](https://github.com/vaiden/agno-cursor-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/vaiden/agno-cursor-agent/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/vaiden/agno-cursor-agent/graph/badge.svg)](https://codecov.io/gh/vaiden/agno-cursor-agent)
+![CI](https://github.com/vaiden/agno-cursor-agent/actions/workflows/ci.yml/badge.svg)
+![codecov](https://codecov.io/gh/vaiden/agno-cursor-agent/graph/badge.svg)
 
-Agno `Model` adapter that talks to the **Cursor CLI** over a persistent **ACP** (JSON-RPC) session.
+Agno `Model` adapter that talks to the **Cursor CLI** over a persistent **ACP** (JSON-RPC) session.  
 
-Install from PyPI (after the first release tag):
+## Reasoning
+Cursor unlocks multiple exciting features: multiple model providers, cost router, agentic memory, code indexing, cloud agent provisioning and a powerful harness.
+Now available to power your Agno agents for the best aSDLC pipeline experience.
+
+## Quickstart
+
+Install from PyPI:
 
 ```bash
-pip install agno-cursor
+pip install agno-cursor-agent
 # AgentOS with WebSockets:
-pip install "agno-cursor[standard]"
+pip install "agno-cursor-agent[standard]"
 ```
 
-Editable install from this repo:
-
-```bash
-pip install -e ".[dev]"
-pytest -m "not integration" --cov=agno_cursor --cov-fail-under=85
-```
+Import name on PyPI is **`agno-cursor-agent`**; in Python you still `import agno_cursor`.
 
 ## Quick usage
 
@@ -37,7 +38,7 @@ Harness environment variables use the `AGNO_CURSOR_` prefix (for example `AGNO_C
 
 ## Demo team
 
-A full **Agno AgentOS + A2A** team lives under [`examples/demo_team`](examples/demo_team/README.md). It uses `CURSOR_TEAM_*` settings and role-based models (leader defaults to `auto`).
+A full **Agno AgentOS + A2A** team lives under [`examples/demo_team`](examples/demo_team/README.md). It uses `CURSOR_TEAM_`* settings and role-based models (leader defaults to `auto`).
 
 ```bash
 cd examples/demo_team

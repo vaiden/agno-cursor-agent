@@ -34,7 +34,7 @@ CI does **not** use Cursor credentials; unit tests mock ACP subprocess I/O.
 1. Merge to `main` with passing CI.
 2. Bump `version` in `pyproject.toml` and `agno_cursor/__init__.py` (`__version__`).
 3. Tag and push: `git tag v0.1.0 && git push origin v0.1.0`.
-4. GitHub Actions workflow **`publish.yml`** runs unit tests, builds the wheel/sdist, and publishes to PyPI via **OIDC trusted publishing** (no PyPI token in GitHub secrets).
+4. GitHub Actions workflow **`publish.yml`** runs unit tests, builds the wheel/sdist, and publishes **`agno-cursor-agent`** to PyPI via **OIDC trusted publishing** (no PyPI token in GitHub secrets).
 
 ### PyPI trusted publisher
 
