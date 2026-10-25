@@ -74,7 +74,7 @@ Connect the Agno UI to **http://localhost:7777** (not `0.0.0.0`).
 
 - [x] Cursor ACP integration
 - [ ] Remote Cursor integration
-- [ ] Cursor as a DevContainer ([devcontainers/images](https://github.com/devcontainers/images))
+- [ ] Cursor as a [DevContainer](https://github.com/devcontainers/images)
 
 ## Development
 
