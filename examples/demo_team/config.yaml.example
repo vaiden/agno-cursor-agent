@@ -1,0 +1,19 @@
+# Optional rich config. Copy to config.yaml to use.
+
+port: 7777
+team_id: cursor_team
+default_model: composer-2.5
+default_mode: ask
+base_spawn_cmd: cursor-agent
+
+role_models:
+  leader: auto
+  coder: composer-2.5
+  writer: claude-sonnet-5-5-medium
+  product_owner: claude-sonnet-5-5-medium
+
+# agents:
+#   researcher:
+#     worker_url: http://localhost:7801
+#   writer:
+#     mode: agent
