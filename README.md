@@ -4,9 +4,12 @@
 ![codecov](https://codecov.io/gh/vaiden/agno-cursor-agent/graph/badge.svg)
 ![PyPI Version](https://img.shields.io/pypi/v/agno-cursor-agent)
 
-Agno `Model` adapter that talks to the **Cursor CLI** over a persistent **ACP** (JSON-RPC) session.  
+Agno `Model` adapter that talks to the **Cursor CLI** over a persistent **ACP** (JSON-RPC) session.
+
+The library speaks ACP. The demo team is reached over A2A. See [docs/PROTOCOL.md](docs/PROTOCOL.md).  
 
 ## Reasoning
+
 Cursor unlocks multiple exciting features: multiple model providers, cost router, agentic memory, code indexing, cloud agent provisioning and a powerful harness.
 Now available to power your Agno agents for the best aSDLC pipeline experience.
 
@@ -58,6 +61,17 @@ agent = Agent(id="coder", model=model, instructions=["You write code."])
 
 Harness environment variables use the `AGNO_CURSOR_` prefix (for example `AGNO_CURSOR_ACP_TRACE=true`).
 
+## Local and remote invocation
+
+**Local.** `CursorACPChat` starts `cursor-agent acp` on the same machine as your Python process. That machine has to be logged into Cursor before the first prompt. Two ways to do that:
+
+- `cursor-agent login` once. This is the usual setup on a laptop.
+- `CURSOR_API_KEY` in the environment, or in a private `.env` you never commit. This is the usual setup for CI and a server.
+
+`cursor-agent status` should say `Logged in`. The library does not read or store the key. The CLI picks it up from that environment.
+
+**Remote.** A team member can run on another host. Start `worker_os.py` there and give that member a `worker_url` (the [demo team](examples/demo_team/README.md) shows the commands). The team sends the task over A2A. Cursor login stays on the worker host, same two choices: `cursor-agent login`, or `CURSOR_API_KEY` in the worker's environment.
+
 ## Demo team
 
 A full **Agno AgentOS + A2A** team lives under [`examples/demo_team`](examples/demo_team/README.md). It uses `CURSOR_TEAM_*` settings and role-based models (leader defaults to `auto`).
@@ -71,10 +85,15 @@ python team_os.py
 
 Connect the Agno UI to **http://localhost:7777** (not `0.0.0.0`).
 
+## Caveats
+
+`cursor/ask_question`, `cursor/create_plan`, and `plan_update` are still ignored, so a Cursor question or plan approval never reaches the coordinator.
+
 ## Roadmap
 
 - [x] Cursor ACP integration
-- [ ] Remote Cursor integration
+- [x] Remote Cursor agent
+- [ ] Native container support
 - [ ] Cursor as a [DevContainer](https://github.com/devcontainers/images)
 
 ## Development
