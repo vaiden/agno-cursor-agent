@@ -35,7 +35,7 @@ DOCS_ROSTER = [
         id="writer",
         name="Writer",
         role="writer",
-        description="Authors README.md and docs/ARCHITECTURE.md with clear structure.",
+        description="Authors README.md and doc/ARCHITECTURE.md with clear structure.",
     ),
 ]
 
@@ -84,7 +84,7 @@ def build_docs_team(settings: TeamSettings) -> Team:
         db=db,
         instructions=[
             "Produce documentation for this Agno + Cursor ACP + A2A project.",
-            "The coder inspects source files; the writer creates README.md and docs/ARCHITECTURE.md.",
+            "The coder inspects source files; the writer creates README.md and doc/ARCHITECTURE.md.",
             "Cover: architecture, setup, local vs remote config, role-based models, tests, and Agno UI.",
             "Write files inside the project directory only.",
         ],
@@ -107,7 +107,7 @@ async def run_docs() -> None:
 
     prompt = (
         f"Document this project under {settings.project_root}. "
-        "Update README.md and create docs/ARCHITECTURE.md with accurate details from the codebase."
+        "Update README.md and create doc/ARCHITECTURE.md with accurate details from the codebase."
     )
     try:
         await team.arun(prompt)
