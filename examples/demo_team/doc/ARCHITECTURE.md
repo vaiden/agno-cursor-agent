@@ -19,7 +19,7 @@ The result is an Agno team that can be called through A2A while each local agent
 
 The library lives in `src/agno_cursor`. The demo team lives in `examples/demo_team`.
 
-Wire-level detail for both protocols is in [PROTOCOL.md](PROTOCOL.md).
+Wire-level detail for both protocols is in [PROTOCOL.md](../../../docs/PROTOCOL.md).
 
 ## Component Map
 
