@@ -6,7 +6,9 @@
 
 Agno `Model` adapter that talks to the **Cursor CLI** over a persistent **ACP** (JSON-RPC) session.
 
-The library speaks ACP. The demo team is reached over A2A. See [docs/PROTOCOL.md](docs/PROTOCOL.md).  
+The library speaks ACP. The demo team is reached over A2A. 
+
+See [`docs/PROTOCOL.md`](docs/PROTOCOL.md) or feed it directly to your Agentic coder.  
 
 ## Reasoning
 
@@ -44,7 +46,7 @@ pip install agno-cursor-agent
 pip install "agno-cursor-agent[standard]"
 ```
 
-Import name on PyPI is **`agno-cursor-agent`**; in Python you still `import agno_cursor`.
+Import name on PyPI is `agno-cursor-agent`; in Python you still `import agno_cursor`.
 
 ## Quick usage
 
@@ -75,6 +77,8 @@ Harness environment variables use the `AGNO_CURSOR_` prefix (for example `AGNO_C
 ## Demo team
 
 A full **Agno AgentOS + A2A** team lives under [`examples/demo_team`](examples/demo_team/README.md). It uses `CURSOR_TEAM_*` settings and role-based models (leader defaults to `auto`).
+
+See [`examples/demo_team/docs/ARCHITECTURE.md`](examples/demo_team/docs/ARCHITECTURE.md).
 
 ```bash
 cd examples/demo_team
