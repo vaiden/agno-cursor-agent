@@ -78,7 +78,7 @@ Harness environment variables use the `AGNO_CURSOR_` prefix (for example `AGNO_C
 
 A full **Agno AgentOS + A2A** team lives under [`examples/demo_team`](examples/demo_team/README.md). It uses `CURSOR_TEAM_*` settings and role-based models (leader defaults to `auto`).
 
-See [`examples/demo_team/doc/ARCHITECTURE.md`](examples/demo_team/doc/ARCHITECTURE.md).
+See [`examples/demo_team/docs/ARCHITECTURE.md`](examples/demo_team/docs/ARCHITECTURE.md).
 
 ```bash
 cd examples/demo_team
