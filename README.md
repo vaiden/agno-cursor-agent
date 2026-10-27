@@ -91,12 +91,13 @@ Connect the Agno UI to **http://localhost:7777** (not `0.0.0.0`).
 
 ## Caveats
 
-`cursor/ask_question`, `cursor/create_plan`, and `plan_update` are still ignored, so a Cursor question or plan approval never reaches the coordinator.
+Turn blocking Cursor responses (`cursor/ask_question`, `cursor/create_plan`), and `plan_update` are still ignored, so a Cursor question or plan approval never reaches the coordinator.
 
 ## Roadmap
 
 - [x] Cursor ACP integration
 - [x] Remote Cursor agent
+- [ ] Handle turn blocking Cursor responses 👈
 - [ ] Native container support
 - [ ] Cursor as a [DevContainer](https://github.com/devcontainers/images)
 
