@@ -61,6 +61,8 @@ def test_registry_warm(harness_settings, fake_popen_factory):
 async def test_cursor_ainvoke_and_stream():
     model = CursorACPChat(agent_key="a", model="composer-2.5")
     session = MagicMock()
+    session.is_parked.return_value = False
+    session.parked_kind = None
     session.prompt.return_value = '{"content":"async"}'
     with patch("agno_cursor.model.cursor_acp.REGISTRY.get_or_create", return_value=session):
         from agno.models.message import Message

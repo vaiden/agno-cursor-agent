@@ -87,6 +87,7 @@ def build_docs_team(settings: TeamSettings) -> Team:
             "The coder inspects source files; the writer creates README.md and docs/ARCHITECTURE.md.",
             "Cover: architecture, setup, local vs remote config, role-based models, tests, and Agno UI.",
             "Write files inside the project directory only.",
+            "When a member returns [cursor_blocked], resume that same member with only the JSON reply shown, or ask the user and stop until they answer.",
         ],
         markdown=True,
         show_members_responses=True,

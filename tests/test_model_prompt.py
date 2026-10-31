@@ -33,6 +33,8 @@ def test_invoke_uses_registry_prompt():
     settings = HarnessSettings()
     model = CursorACPChat(agent_key="a", model="composer-2.5", settings=settings)
     session = MagicMock()
+    session.is_parked.return_value = False
+    session.parked_kind = None
     session.prompt.return_value = '{"content":"done"}'
     with patch("agno_cursor.model.cursor_acp.REGISTRY.get_or_create", return_value=session):
         resp = model.invoke(

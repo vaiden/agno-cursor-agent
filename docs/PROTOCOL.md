@@ -117,7 +117,32 @@ The working directory is `project_root`. That path is also sent as `cwd` in `ses
 }
 ```
 
-While that call is in flight, the reader thread collects `session/update` notifications whose `sessionUpdate` is `agent_message_chunk`, concatenates `params.update.content.text`, and returns that string when `session/prompt` completes. Other notifications are logged and ignored. The adapter does not stream chunks up into Agno; `CursorACPChat` yields one full response.
+While that call is in flight, the reader thread collects `session/update` notifications whose `sessionUpdate` is `agent_message_chunk`, concatenates `params.update.content.text`, and returns that string when `session/prompt` completes. The adapter does not stream chunks up into Agno; `CursorACPChat` yields one full response.
+
+#### `plan_update`
+
+ACP `session/update` notifications with `sessionUpdate: "plan_update"` carry a full plan snapshot (`planId`, `entries` with `content`, `priority`, `status`). Each update replaces the cached plan for that `planId`. These are not blocking: Cursor does not wait for a reply. When `session/prompt` completes, the latest snapshots are appended to the member text as `[cursor_plan_snapshot]`.
+
+#### Blocking Cursor extensions
+
+While `session/prompt` is still open, Cursor may send JSON-RPC **requests** (with an `id`):
+
+| Method | Purpose |
+| --- | --- |
+| `cursor/ask_question` | Multiple-choice questions; blocks until the client responds |
+| `cursor/create_plan` | Plan approval; blocks until the client responds |
+
+`ACPSession` parks the open prompt, returns a `[cursor_blocked]` envelope to Agno, and waits. The coordinator (team leader) must delegate back to the **same** member with a single JSON resume object. The adapter sends a nested JSON-RPC result and keeps waiting on the original `session/prompt`:
+
+```json
+{"jsonrpc":"2.0","id":12,"result":{"outcome":{"outcome":"answered","answers":[{"questionId":"q1","selectedOptionIds":["agent"]}]}}}
+```
+
+```json
+{"jsonrpc":"2.0","id":13,"result":{"outcome":{"outcome":"accepted"}}}
+```
+
+A flat `{ "outcome": "accepted" }` at the top level of `result` is treated by Cursor as a cancel. While parked, no second `session/prompt` is sent. Invalid resume JSON is rejected up to three times, then the parked request is cancelled.
 
 ### Permissions
 

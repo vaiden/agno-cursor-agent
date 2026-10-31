@@ -17,8 +17,14 @@ from agno.models.response import ModelResponse
 from agno.run.agent import RunOutput
 from agno.run.team import TeamRunOutput
 
+from agno_cursor.acp.cursor_blocked import (
+    CursorBlockedTurn,
+    format_blocked_envelope,
+    parse_resume_payload,
+    validate_resume_payload,
+)
 from agno_cursor.acp.registry import REGISTRY
-from agno_cursor.acp.session import ACPSession
+from agno_cursor.acp.session import ACPSession, PromptOutcome
 from agno_cursor.settings import AcpMode, HarnessSettings
 from agno_cursor.trace import log_agent_meta
 
@@ -111,6 +117,21 @@ class CursorACPChat(Model):
         self._first_turn = False
         return prompt
 
+    def _run_acp_turn(self, prompt: str) -> PromptOutcome:
+        session = self._session()
+        if session.is_parked():
+            payload = parse_resume_payload(prompt)
+            kind = session.parked_kind
+            if payload and kind and validate_resume_payload(kind, payload) is None:
+                return session.resume(payload)
+            err = "Expected a single JSON resume object for the parked Cursor request."
+            if payload and kind:
+                validation_err = validate_resume_payload(kind, payload)
+                if validation_err:
+                    err = validation_err
+            return session.invalid_resume(err)
+        return session.prompt(prompt)
+
     def _extract_json(self, text: str) -> Optional[Dict[str, Any]]:
         text = text.strip()
         if text.startswith("{") and text.endswith("}"):
@@ -183,7 +204,20 @@ class CursorACPChat(Model):
                 label="Agno → ACP (invoke)",
                 detail=f"tools={'yes' if tools else 'no'}",
             )
-        raw = self._session().prompt(prompt)
+        raw = self._run_acp_turn(prompt)
+        if isinstance(raw, CursorBlockedTurn):
+            model_response = ModelResponse(role="assistant")
+            model_response.content = format_blocked_envelope(raw)
+            if getattr(self.settings, "acp_trace", False):
+                log_agent_meta(
+                    role=role,
+                    model=self.model,
+                    agent_key=self.agent_key,
+                    mode=mode,
+                    label="Agno ← ACP (blocked)",
+                    detail=f"kind={raw.kind}",
+                )
+            return model_response
         parsed = self._parse_provider_response(raw)
         if getattr(self.settings, "acp_trace", False):
             if parsed.tool_calls:
