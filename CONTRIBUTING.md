@@ -51,6 +51,7 @@ When an agent runs tests in this repo, it must use `.venv/bin/python`, `uv run p
 
 ## Pull requests
 
+- After a PR merges, run `./scripts/sync-main-after-merge.sh` so local `main` matches `origin` (see `.cursor/rules/git-after-merge.mdc`).
 - Keep CI green on Python 3.10–3.12.
 - Do not commit `.env`, `config.yaml`, or `*.db` files.
 

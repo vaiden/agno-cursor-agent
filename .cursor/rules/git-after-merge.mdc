@@ -1,0 +1,14 @@
+---
+description: After a merged PR, sync local main via sync-main-after-merge.sh
+alwaysApply: true
+---
+
+# Git after merge (agno-cursor-agent)
+
+When a pull request is **merged** (you merged it, the user says it merged, or `gh pr merge` succeeded):
+
+1. Run **`./scripts/sync-main-after-merge.sh`** from the repo root — do not hand-roll `git checkout` / `pull` / branch cleanup unless the script fails.
+2. Optional: pass the merged feature branch name to delete it locally: `./scripts/sync-main-after-merge.sh feat/my-branch`.
+3. Start new work from the updated default branch (`main` on this repo), not from the old feature branch.
+
+Do **not** stay on a merged feature branch for follow-up commits; branch again for the next change.
