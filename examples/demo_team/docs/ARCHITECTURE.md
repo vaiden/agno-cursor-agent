@@ -117,11 +117,16 @@ Prompt flow:
 
 ```text
 session/prompt
-session/update notifications with agent_message_chunk
-join chunks into final model text
+session/update: agent_message_chunk (stream text into buffer)
+session/update: plan_update (replace cached plan by planId; non-blocking)
+cursor/ask_question or cursor/create_plan (park prompt; return [cursor_blocked] to leader)
+resume JSON from leader -> nested extension result -> same session/prompt completes
+join chunks + append [cursor_plan_snapshot] into final model text
 ```
 
 Permission requests from ACP are answered with `allow-once`, allowing unattended AgentOS runs to continue.
+
+Blocking Cursor questions and plan approval surface to the team leader as `[cursor_blocked]` member content. The leader answers or asks the user, then delegates the resume JSON back to the same member. See [PROTOCOL.md](../../../docs/PROTOCOL.md).
 
 `ACPSessionRegistry` keeps one session per `agent_key` in the current process. The team process and each worker process have their own registry.
 

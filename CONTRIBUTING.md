@@ -2,27 +2,52 @@
 
 ## Setup
 
+Use a **project-local virtual environment**. Do not rely on Conda base, system `python`, or `PYTHONPATH=src` alone — those miss installed dependencies (`agno`, `pydantic`, etc.).
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate
+cd /path/to/agno-cursor-agent
+python3 -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+python -m pip install -U pip
 pip install -e ".[dev]"
+```
+
+**Alternative (uv):** if you use [uv](https://docs.astral.sh/uv/) and `uv.lock`:
+
+```bash
+uv sync --extra dev
+uv run pytest -m "not integration"
 ```
 
 ## Tests
 
-Default (CI-safe, no Cursor login):
+Always run unit tests **with the venv activated** or via the helper script (creates `.venv` if missing):
 
 ```bash
+./scripts/run-unit-tests.sh
+```
+
+Default markers match CI (no Cursor login):
+
+```bash
+source .venv/bin/activate
 pytest -m "not integration" --cov=agno_cursor --cov-report=term-missing --cov-fail-under=85
 ```
 
 Integration (local only, requires `cursor-agent login` and optionally `python team_os.py` in `examples/demo_team`):
 
 ```bash
+source .venv/bin/activate
 pytest -m integration
 ```
 
+CI runs on **GitHub-hosted Ubuntu** with `actions/setup-python` (3.10–3.12), `pip install -e ".[dev]"`, then the same pytest command — not your Mac’s default interpreter.
+
 CI does **not** use Cursor credentials; unit tests mock ACP subprocess I/O.
+
+### Cursor agents
+
+When an agent runs tests in this repo, it must use `.venv/bin/python`, `uv run pytest`, or `./scripts/run-unit-tests.sh`. See `.cursor/skills/agno-cursor-unit-tests/SKILL.md` for the verifier + test-runner workflow.
 
 ## Pull requests
 

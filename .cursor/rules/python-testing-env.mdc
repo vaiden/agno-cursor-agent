@@ -1,0 +1,13 @@
+---
+description: Run Python tests only inside the project venv or run-unit-tests.sh
+alwaysApply: true
+---
+
+# Python test environment (agno-cursor-agent)
+
+- **Never** run `pytest` or `python -m pytest` with bare Conda base, system Python, or only `PYTHONPATH=src`.
+- **Always** use one of:
+  - `./scripts/run-unit-tests.sh` (preferred; creates `.venv` if needed)
+  - `source .venv/bin/activate` then `pytest …`
+  - `uv sync --extra dev && uv run pytest …`
+- Before reporting unit tests as passing after code changes, follow `.cursor/skills/agno-cursor-unit-tests/SKILL.md` (verifier subagent, then test-runner subagent).
